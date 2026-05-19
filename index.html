@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cara compile kernel di linux</title>
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    h1 {
+      color: white;
+    }
+
+    h2 {
+      margin-left: 20rem;
+      margin-right: 20rem;
+      color: white;
+    }
+
+    h3 {
+      margin-left: 22rem;
+      margin-right: 20rem;
+      color: white;
+    }
+
+    p {
+      margin-left: 25rem;
+      margin-right: 20rem;
+      color: white;
+    }
+
+    div {
+      align-items: center;
+      text-align: center;
+      margin-left: 30rem;
+      margin-right: 20rem;
+      width: fit-content;
+      background-color: hotpink;
+    }
+
+    #NEW {
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+    }
+
+    img {
+      width: 680px;
+      height: 480px;
+      margin-left: 30rem;
+    }
+  </style>
+</head>
+
+<body style="background-color: black;">
+  <h1 style="text-align: center;">HOW TO COMPILE YOUR OWN KERNEL</h1>
+  <br>
+  <h2>KERNEL</h2>
+  <p>tutorial ini lebih kearah basic dan di tulis dengan cepat jadi nggak menampung semuanya, gua juga masih belajar
+    dawg</p>
+  <p>tapi seharunya tutorial ini nggak terlalu sulit bahkan <strong>PRABOWO</strong> sendiri pun "mungkin" bisa
+    melakukannya...</p>
+  <p><strong>DISCLAMER: Tutorial ini akan menggunakan GCC sebagai compiler</strong></p>
+  <p>linux punya pre-compiled kernel linux yang di-distribusikan ke distro-distro</p>
+  <p>setiap kernel memiliki kelebihan dan
+    kekurangan masing-masing tergantung bagaimana seseorang meracik kernel tersebut dan mengoptimiasasinya</p>
+  <p>contoh kernel linux yang biasanya di termukan pada banyak distro:</p>
+  <p><strong>linux</strong> : kernel vannila tanpa adanya modifikasi distributor atau komunitas</p>
+  <p><strong>linux-zen</strong> : kernel yang berfokus ke peforma dan tidak peduli efesiensi</p>
+  <p><strong>linux-hardened</strong> : kernel yang berfokus pada keamanan, kernel ini biasanya hanya di gunakan pada
+    server</p>
+  <br>
+  <h2>Persiapan</h2>
+  <h3>Memilih versi</h3>
+  <p>Dalam membangun kernel linux sendiri terdapat beberapa versi diantarnya adalah :
+    <strong>MAINLINE/STABLE/LONGTERM</strong>
+  <p><strong>mainline</strong> adalah versi yang sedang di test dan dalam pengembangan</p>
+  <p><strong>stable</strong> adalah versi stabil terbaru dengan good stuffs yang telah selesai dalam masa percobaan</p>
+  <p><strong>longterm</strong> adalah versi tua yang sangat stabil, versi ini biasanya di perbarui dalam bentuk keamanan
+    dan patch penting saja</p>
+  <p id="NEW">Gua saranin untuk milih versi stable</p>
+  <p>Download tarball linux kernel <a href="https://www.kernel.org/" target="_blank">DISINI</a></p>
+  </h3>
+  <h3>Persiapan lingkungan</h3>
+  <p>Sebelum membangun kernel sendiri, diperlukan beberapa dependensi</p>
+  <p id="NEW">Pada Arch</p>
+  <div>sudo pacman -S --needed base-devel bc bison gcc clang llvm</div>
+  <h3>Persiapan workspace</h3>
+  <p>setelah mendownload kernel source linux, buat workspace untuk kernel, kalo kernel source di Downloads lu bisa
+    ikutin command di bawah</p>
+  <div>mkdir $HOME/workspace</div>
+  <div>
+    mv $HOME/Downloads/linux-* $HOME/workspace
+  </div>
+  <div>
+    cd $HOME/workspace
+  </div>
+  tar -xvf linux-*
+  </div>
+  <p id="NEW">CATATAN : TANDA "*" ARTINYA MENGOPERASIKAN SEMUA YANG ADA, JIKA LU PUNYA BEBERAPA HAL DENGAN NAMA
+    YANG SAMA DENGAN AWALAN SEBELUM "*" (LINUX), MAKA SEMUANYA AKAN IKUT DI EKSEKUSI!</p>
+  <br>
+  <h2>KONFIGURASI KERNEL</h2>
+  <h3>config</h3>
+  <p>setelah selesai ekstraksi, masuk ke folder source kernel dan jalankan terminal di folder tersebut</p>
+  <p>membangun kernel itu seperti memasak, LET HIM COOK!, kita perlu bahan, alat dan panduan.</p>
+  <p>bahannya adalah kode source, alatnya adalah compiler, panduannya adalah apa saja yang perlu dimasukan</p>
+  <p>kita udah punya dua hal, hanya butuh panduan dalam memasak kernelnya, lu bisa membuat panduan sendiri kalo lu
+    adalah seorang koki
+    yang tahu apa yang kau lakukan, tapi kali ini kita akan menggunakan panduan yang udah ada di dalam sistem kita</p>
+  <p>untuk mendapatkan panduan yang sudah ada di dalam sistem kita saat ini</p>
+  <div>zcat /proc/config.gz > .config</div>
+  <p>selamat lu udah dapat panduan untuk kernel lu, hanya saja panduan ini sangat bloated like <strong id="NEW">YOUR
+      MOM</strong>, karena di dapatkan dari kernel yang berjalan sekarang,
+    gua prediksi lu masih make kernel dari distro, tapi untuk sekarang good enough</p>
+  <h3>kostumisasi</h3>
+  <p>akhirnya yang paling di tunggu-tunggu, KUSTOMISASI, aaahhhhhhhhh tangan ku udah gak sabar buat kustomisasi... </p>
+  <p>untuk mengkostumisasi kernel</p>
+  <div>make menuconfig</div>
+  <img src="menu.png" alt="none">
+  <br>
+  <p>cara navigasi: </p>
+  <p>↑ dan ↓ : navigasi ke atas atau kebawah</p>
+  <p><- dan ->: navigasi pilihan bawah menu</p>
+  <p>/ : mencari sesuatu</p>
+  <p>h : tolong (kaki saya sakit)</p>
+  <p>y dan n : y adalah ya masukan, n adalah gak jangan masukkan >\\\< </p>
+      <p>m : ya tapi jadiin module saja (berbeda dengan y, m tidak lansung berjalan saat boot kecuali di panggil)</p>
+      <p></p>
+      <br>
+      <p>untuk mengganti nama kernel, pergi ke </p>
+      <p>General Setup > Local version - append to kernel release </p>
+      <p>contoh penulisan nama : -Dengan-ini_SAYA-AKAN-LAWAN-v1</p>
+      <p>Gua tidak menyarankan menggunakan karakter selain angka dan huruf karena bisa buat compile gagal</p>
+      <p>setelahnya... yeah... terserah lu mau ngapain sih...</p>
+      <h3>Waktunya compile kernel</h3>
+      <p>kalo sudah merasa cukup kustomiasasi, save config lu</p>
+      <p>karena waktunya <strong>MEMASAK</strong></p>
+      <p id="NEW">KOMPILE KERNEL</p>
+      <div>make -j$(nproc) && make modules -j$(nproc)</div>
+      <p>ini akan memakan waktu yang cukup lama karena panduan yang di gunakan sangat bloated seperti <strong>YOUR
+          MOM</strong></p>
+      <h3>Menginstall kernel</h3>
+      <p>setelah kernel berhasil di kompile, waktunya menginstall kernel</p>
+      <p id="NEW">ambil kernel release (jika shell lu bash/zsh)</p>
+      <div>
+        kernel=$(make kernelrelease)
+      </div>
+      <p id="NEW">ambil kernel release (jika shell lu fish)</p>
+      <div>
+        set kernel (make kernelrelease)
+      </div>
+
+      <br>
+      <p id="NEW">Install kernel</p>
+      <div>
+        sudo mv arch/x86/bzImage /boot/vmlinuz-"$kernel"
+      </div>
+      <p id="NEW">Install module</p>
+      <div>
+        sudo modules_install -j$(nproc)
+      </div>
+      <p id="NEW">Install header (via sysmlink)</p>
+      <div>
+        sudo mkdir -p "/usr/lib/modules/$kernel"
+      </div>
+      <div>
+        sudo ln -sfn "$(pwd)" "/usr/lib/modules/$kernel/build"
+      </div>
+      <div>
+        sudo ln -sfn "$(pwd)" "/usr/lib/modules/$kernel/source"
+      </div>
+      <p id="NEW">menambahkan preset mkinitcpio</p>
+      <div>
+        sudo echo ALL_kver="/boot/$kernel" > /etc/mkinitcpio.d/"$kernel".preset
+      </div>
+      <div>
+        sudo echo PRESET=('default') >> /etc/mkinitcpio.d/"$kernel".preset
+      </div>
+      <div>
+        sudo echo default_image=/boot/initramfs-$kernel >> /etc/mkinitcpio.d/"$kernel".preset
+      </div>
+      <p id="NEW">update mkinitcpio</p>
+      <div>
+        sudo mkinitcpio -p $kernel
+      </div>
+      <p id="NEW">update grub</p>
+      <div>
+        sudo grub-mkconfig -o /boot/grub/grub.cfg
+      </div>
+      <<h3>Kesimpulan</h3>
+        <p>SELAMAT ANDA TELAH BERHASIL MENGCOMPILE DAN MENGINSTALL KERNEL DI ARCH</p>
+        <p>reboot komputer lu dan pilih opsi ke 2 untuk melihat dan memilih entry kernel</p>
+        <p>setelah berhasil booting, jangan lupa untuk menginstall driver-driver luar (jika ada)</p>
+        <p>contoh driver luar : nvidia</p>
+        <p><strong>kernel yang bukan vannila perlu membuild ulang driver luar</strong></p>
+        <br>
+        <h2>kustomisasi lainnya</h2>
+        <p>Maaf saat ini kustomisasi lainnya akan berada di page lain karena topik ini sangat panjang dan rabbit hole
+          yang sangat dalam</p>
+        <img src="rabbit.png" alt="hole" style="height: 512px; width: 512px;">
+</body>
+
+</html>
